@@ -1,5 +1,6 @@
 import React from "react";
 import {useFormik} from 'formik';
+import * as Yup from 'yup';
 
 function NuevoPlatillo() {
 
@@ -12,6 +13,12 @@ function NuevoPlatillo() {
             imagen: '',
             descripcion: '',
         },
+        validationSchema: Yup.object({
+            nombre: Yup.string().min(3, 'Los Platillos deben tener al menos 3 caracteres').required('El nombre del platillo es obligatorio'),
+            precio: Yup.number().min(1, 'Debes agregar un número').required('El precio es obligatorio'),
+            precio: Yup.string().required('La categorio es obligatorio'),
+            precio: Yup.string().min(10, 'La debe tener al menos 10 caracteres').required('La descripción es obligatorio'),
+        }),
         onSubmit: datos => {
             console.log(datos);
         }
@@ -35,10 +42,17 @@ function NuevoPlatillo() {
                 type="text"
                 value={formik.values.nombre}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder=" Nombre del Platillo"
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
+            {formik.touched.nombre && formik.errors.nombre ? (
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                    <p className="font-bold">Hubo un error</p>
+                    <p>{formik.errors.nombre}</p>
+                </div>
+            ) : null }
             <div className="mb-4">
               <label
                 htmlFor="precio"
@@ -51,6 +65,7 @@ function NuevoPlatillo() {
                 type="number"
                 value={formik.values.precio}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder=" $20"
                 min="0"
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -67,6 +82,7 @@ function NuevoPlatillo() {
                 id="categoria"
                 value={formik.values.categoria}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="">Seleccione</option>
@@ -90,6 +106,7 @@ function NuevoPlatillo() {
                 type="file"
                 value={formik.values.imagen}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -105,6 +122,7 @@ function NuevoPlatillo() {
                 type="text"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder=" Descripcion del platillo"
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
               ></textarea>
