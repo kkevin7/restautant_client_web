@@ -1,14 +1,24 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
+//Validations
 import { useFormik } from "formik";
 import * as Yup from "yup";
 //Firebase
 import {FirebaseContext} from '../../firebase';
 //Navigation
 import { useNavigate} from 'react-router-dom'; 
+//Libs
+import FileUploader from 'react-firebase-file-uploader'
 
 function NuevoPlatillo() {
   //Context con las operaciones de firebase
   const {firebase} = useContext(FirebaseContext);
+
+  //States
+  const [uplaod, setUplaod] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [urlImage, setUrlImage] = useState('')
+
+  console.log(firebase);
 
   //Hook para redireccionar
   const navigate = useNavigate();
@@ -37,6 +47,7 @@ function NuevoPlatillo() {
     onSubmit: (platillo) => {
       try {
         platillo.existencia = true;
+        platillo.imagen = urlImage;
         firebase.db.collection('productos').add(platillo);
         //Redireccionar
         navigate('/menu');
@@ -45,6 +56,33 @@ function NuevoPlatillo() {
       }
     },
   });
+
+  //Images Methods
+  const handleUploadStart = () => {
+    setProgress(0);
+    setUplaod(true);
+  }
+  const handleUploadError = (error) => {
+    setUplaod(false);
+    console.log("Error Upload", error)
+  }
+  const handleUploadSuccess = async (filename) => {
+    setProgress(100);
+    setUplaod(false);
+
+    //Almacenar la URL de destino
+    const url = await firebase
+    .storage
+    .ref("productos")
+    .child(filename)
+    .getDownloadURL()
+
+    console.log(url);
+    setUrlImage(url);
+  }
+  const handleProgress = (progress) => {
+    setProgress(progress);
+  }
 
   return (
     <>
@@ -144,13 +182,16 @@ function NuevoPlatillo() {
               >
                 Imagen
               </label>
-              <input
-                id="precio"
-                type="file"
-                value={formik.values.imagen}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              <FileUploader 
+                accept="image/*"
+                id="imagen"
+                name="imagen"
+                randomizeFilename
+                storageRef={firebase.storage.ref("productos")}
+                onUploadStart={handleUploadStart}
+                onUploadError={handleUploadError}
+                onUploadSuccess={handleUploadSuccess}
+                onProgress={handleProgress}
               />
             </div>
             <div className="mb-4">
