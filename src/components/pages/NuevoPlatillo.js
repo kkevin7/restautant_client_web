@@ -16,8 +16,8 @@ function NuevoPlatillo() {
         validationSchema: Yup.object({
             nombre: Yup.string().min(3, 'Los Platillos deben tener al menos 3 caracteres').required('El nombre del platillo es obligatorio'),
             precio: Yup.number().min(1, 'Debes agregar un número').required('El precio es obligatorio'),
-            precio: Yup.string().required('La categorio es obligatorio'),
-            precio: Yup.string().min(10, 'La debe tener al menos 10 caracteres').required('La descripción es obligatorio'),
+            categoria: Yup.string().required('La categorio es obligatorio'),
+            descripcion: Yup.string().min(10, 'La debe tener al menos 10 caracteres').required('La descripción es obligatorio'),
         }),
         onSubmit: datos => {
             console.log(datos);
@@ -48,7 +48,7 @@ function NuevoPlatillo() {
               />
             </div>
             {formik.touched.nombre && formik.errors.nombre ? (
-                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
                     <p className="font-bold">Hubo un error</p>
                     <p>{formik.errors.nombre}</p>
                 </div>
@@ -71,6 +71,12 @@ function NuevoPlatillo() {
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
+            {formik.touched.precio && formik.errors.precio ? (
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                    <p className="font-bold">Hubo un error</p>
+                    <p>{formik.errors.precio}</p>
+                </div>
+            ) : null }
             <div className="mb-4">
               <label
                 htmlFor="categoria"
@@ -94,6 +100,12 @@ function NuevoPlatillo() {
                 <option value="ensalada">Ensalada</option>
               </select>
             </div>
+            {formik.touched.categoria && formik.errors.categoria ? (
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                    <p className="font-bold">Hubo un error</p>
+                    <p>{formik.errors.categoria}</p>
+                </div>
+            ) : null }
             <div className="mb-4">
               <label
                 htmlFor="imagen"
@@ -118,16 +130,21 @@ function NuevoPlatillo() {
                 Descripción
               </label>
               <textarea
-                id="nombre"
+                id="descripcion"
                 type="text"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeholder=" Descripcion del platillo"
+                placeholder=" Descripción del platillo"
                 className="shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
               ></textarea>
             </div>
-
+            {formik.touched.descripcion && formik.errors.descripcion ? (
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                    <p className="font-bold">Hubo un error</p>
+                    <p>{formik.errors.descripcion}</p>
+                </div>
+            ) : null }
             <input
               type="submit"
               value="Agregar Platillo"
