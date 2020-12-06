@@ -1,8 +1,18 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+//Firebase
+import {FirebaseContext} from '../../firebase';
+//Navigation
+import { useNavigate} from 'react-router-dom'; 
 
 function NuevoPlatillo() {
+  //Context con las operaciones de firebase
+  const {firebase} = useContext(FirebaseContext);
+
+  //Hook para redireccionar
+  const navigate = useNavigate();
+
   //validación y leer los datos del formulario
   const formik = useFormik({
     initialValues: {
@@ -24,8 +34,15 @@ function NuevoPlatillo() {
         .min(10, "La debe tener al menos 10 caracteres")
         .required("La descripción es obligatorio"),
     }),
-    onSubmit: (datos) => {
-      console.log(datos);
+    onSubmit: (platillo) => {
+      try {
+        platillo.existencia = true;
+        firebase.db.collection('productos').add(platillo);
+        //Redireccionar
+        navigate('/menu');
+      } catch (error) {
+        console.log("Error Submit: ", error)
+      }
     },
   });
 
