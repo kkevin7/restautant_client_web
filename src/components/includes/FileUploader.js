@@ -27,7 +27,6 @@ const FileUploader = ({
     var progress = Number(
       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
     ).toFixed(2);
-    onUploadStart();
     onProgress(progress);
   };
 
@@ -36,6 +35,7 @@ const FileUploader = ({
     const file = e.target.files[0];
     let filename = generateRandomFilename() + extractExtension(file.name);
     const uploadTask = storageRef.child(filename).put(file);
+    onUploadStart(file, uploadTask);
     uploadTask.on("state_changed", handleUploadStart, onUploadError, () =>
       onUploadSuccess(filename)
     );

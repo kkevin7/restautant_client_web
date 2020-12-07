@@ -21,8 +21,6 @@ function NuevoPlatillo() {
   const [progress, setProgress] = useState(0);
   const [urlImage, setUrlImage] = useState('')
 
-  console.log(firebase);
-
   //Hook para redireccionar
   const navigate = useNavigate();
 
