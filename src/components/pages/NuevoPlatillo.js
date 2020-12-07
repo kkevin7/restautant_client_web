@@ -7,7 +7,10 @@ import {FirebaseContext} from '../../firebase';
 //Navigation
 import { useNavigate} from 'react-router-dom'; 
 //Libs
-import FileUploader from 'react-firebase-file-uploader'
+import FileUploader2 from 'react-firebase-file-uploader'
+//Components
+import FileUploader from '../includes/FileUploader';
+
 
 function NuevoPlatillo() {
   //Context con las operaciones de firebase
@@ -183,10 +186,10 @@ function NuevoPlatillo() {
                 Imagen
               </label>
               <FileUploader 
+                url={urlImage}
                 accept="image/*"
                 id="imagen"
                 name="imagen"
-                randomizeFilename
                 storageRef={firebase.storage.ref("productos")}
                 onUploadStart={handleUploadStart}
                 onUploadError={handleUploadError}
