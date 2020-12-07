@@ -6,8 +6,6 @@ import * as Yup from "yup";
 import {FirebaseContext} from '../../firebase';
 //Navigation
 import { useNavigate} from 'react-router-dom'; 
-//Libs
-import FileUploader2 from 'react-firebase-file-uploader'
 //Components
 import FileUploader from '../includes/FileUploader';
 
