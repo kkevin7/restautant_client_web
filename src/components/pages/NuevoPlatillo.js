@@ -63,6 +63,7 @@ function NuevoPlatillo() {
   //Images Methods
   const handleUploadStart = () => {
     setProgress(0);
+    setUrlImage('');
     setUplaod(true);
   }
   const handleUploadError = (error) => {
@@ -196,6 +197,14 @@ function NuevoPlatillo() {
                 onUploadSuccess={handleUploadSuccess}
                 onProgress={handleProgress}
               />
+
+              {uplaod && (
+                <div className="h-12 relative w-full border">
+                 <div className="bg-green-500 absolute left-0 top-0 text-white px-2 text-sm h-12 flex items-center" style={{width: `${progress}%`}}>
+                   {progress} %
+                 </div>
+                </div>
+              ) }
             </div>
             <div className="mb-4">
               <label
