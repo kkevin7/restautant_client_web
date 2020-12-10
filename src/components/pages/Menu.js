@@ -11,9 +11,7 @@ function Menu() {
 
   useEffect(() => {
     const obtenerPlatillos = () => {
-      const resultado = firebase.db
-        .collection("productos")
-        .onSnapshot(handleSnapshot);
+      const resultado = firebase.db.collection("productos").onSnapshot(handleSnapshot);
     };
     obtenerPlatillos();
   }, []);

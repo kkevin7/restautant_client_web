@@ -24,7 +24,7 @@ const FileUploader = ({
   const generateRandomFilename = () => uuidv4();
 
   const handleUploadStart = (snapshot) => {
-    var progress = Number(
+    let progress = Number(
       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
     ).toFixed(2);
     onProgress(progress);
